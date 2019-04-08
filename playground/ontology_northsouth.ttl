@@ -1,0 +1,68 @@
+
+@prefix amt: <http://academic-meta-tool.xyz/vocab#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix mainzed: <http://mainzed.org/> .
+
+# AMT Ontology - Leonard Edition
+# http://academic-meta-tool.xyz/ontology
+
+amt:Concept rdfs:subClassOf rdfs:Class .
+amt:Role rdfs:subClassOf rdf:Property .
+amt:Axiom rdfs:subclassOf rdfs:Class .
+amt:InferenceAxiom rdfs:subClassOf amt:Axiom .
+amt:IntegrityAxiom rdfs:subClassOf amt:Axiom .
+amt:RoleChainAxiom rdfs:subClassOf amt:InferenceAxiom .
+amt:InverseAxiom rdfs:subClassOf amt:InferenceAxiom .
+amt:DisjointAxiom rdfs:subClassOf amt:IntegrityAxiom .
+amt:SelfDisjointAxiom rdfs:subClassOf amt:IntegrityAxiom .
+amt:Logic rdfs:subClassOf rdfs:Class .
+amt:LukasiewiczLogic rdf:type amt:Logic .
+amt:ProductLogic rdf:type amt:Logic .
+amt:GoedelLogic rdf:type amt:Logic .
+
+# north-south example ontology
+
+# concepts
+
+mainzed:Place rdf:type amt:Concept .
+mainzed:Place rdfs:label "Place" .
+mainzed:Place amt:placeholder "placename" .
+
+# roles
+
+mainzed:northOf rdf:type amt:Role .
+mainzed:northOf rdfs:label "is in the north of" .
+mainzed:northOf rdfs:domain mainzed:Place .
+mainzed:northOf rdfs:range mainzed:Place .
+
+mainzed:southOf rdf:type amt:Role .
+mainzed:southOf rdfs:label "is in the south of" .
+mainzed:southOf rdfs:domain mainzed:Place .
+mainzed:southOf rdfs:range mainzed:Place .
+
+# axioms
+
+# RoleChainAxiom
+
+mainzed:Axiom01 rdf:type amt:RoleChainAxiom .
+mainzed:Axiom01 amt:antecedent1 mainzed:northOf .
+mainzed:Axiom01 amt:antecedent2 mainzed:northOf .
+mainzed:Axiom01 amt:consequent mainzed:northOf .
+mainzed:Axiom01 amt:logic amt:ProductLogic .
+
+mainzed:Axiom02 rdf:type amt:RoleChainAxiom .
+mainzed:Axiom02 amt:antecedent1 mainzed:southOf .
+mainzed:Axiom02 amt:antecedent2 mainzed:southOf .
+mainzed:Axiom02 amt:consequent mainzed:southOf .
+mainzed:Axiom02 amt:logic amt:ProductLogic .
+
+# InverseAxiom
+
+mainzed:Axiom03 rdf:type amt:InverseAxiom .
+mainzed:Axiom03 amt:antecedent mainzed:northOf .
+mainzed:Axiom03 amt:inverse mainzed:southOf .
+
+mainzed:Axiom04 rdf:type amt:InverseAxiom .
+mainzed:Axiom04 amt:antecedent mainzed:southOf .
+mainzed:Axiom04 amt:inverse mainzed:northOf .
