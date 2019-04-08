@@ -205,7 +205,19 @@ var AMT = function() {
 			return true;
 		}
 		if (k<0 && width>0) {
-			edges.push({role: role, from: from, to: to, width: width});
+			//edges.push({role: role, from: from, to: to, width: width});
+            edges.push({
+                role: role,
+                from: from,
+                to: to,
+                width: width,
+                font: {
+                    align: 'middle',
+                    size: 16,
+                    color: 'red',
+                    face: 'monospace'
+                }
+            });
 			return true;
 		}
 		return false;
