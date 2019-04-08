@@ -166,6 +166,75 @@
 							}
 						}
 					}
+					if (MAINZED.ontology==="northsouth") {
+						/*
+							Hier wird spezifiziert, wie die Knoten aussehen sollen
+						*/
+						for (var i in updated.nodes) {
+							updated.nodes[i].length = 10/updated.nodes[i].width;
+							if (!MAINZED.edit) {
+								updated.nodes[i].chosen = false;
+							}
+							if (updated.nodes[i].concept.includes("Place")) {
+								updated.nodes[i].color = {
+		                            background: 'coral',
+		                            border: 'coral',
+		                            highlight: {
+		                                background: 'white',
+		                                border: 'coral'
+		                            }
+		                        };
+		                        updated.nodes[i].shape = "dot";
+		                        updated.nodes[i].font = {
+		                            size: 16,
+		                            face: 'monospace'
+		                        };
+		                        updated.nodes[i].size = 20;
+							}
+						}
+						/*
+							Hier wird spezifiziert wie die Kanten aussehen sollen, welche angezeigt werden sollen, etc
+						*/
+						for (var i in updated.edges) {
+							updated.edges[i].arrowStrikethrough = false;
+							updated.edges[i].chosen = false;
+							if (updated.edges[i].width < 0.1) {
+								updated.edges[i].hidden = true;
+							}
+							if (updated.edges[i].role.includes("northOf")) {
+								updated.edges[i].color = {
+		                            color: "blue",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://mainzed.org/", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    color: 'black',
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("southOf")) {
+								updated.edges[i].color = {
+		                            color: "green",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://mainzed.org/", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    color: 'black',
+				                    face: 'monospace'
+				                }
+							}
+						}
+					}
 					MAINZED.graph.nodes.update(updated.nodes);
 					MAINZED.graph.edges.update(updated.edges);
 					MAINZED.thisNodes = updated.nodes;
@@ -337,6 +406,8 @@
 					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/amtmainzed");
 				} else if (MAINZED.ontology==="samian") {
 					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/samianamt");
+				} else if (MAINZED.ontology==="northsouth") {
+					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amtnorthsouth");
 				} else {
 					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/amtmainzed");
 				}
@@ -775,6 +846,7 @@
 				<ul class="collection">
 		      <li class="collection-item"><b>Personen-Interessen-Netzwerk</b>&nbsp;&nbsp;<div class="chip blue lighten-4">Person</div>&nbsp;<div class="chip red lighten-4">Interesse</div></li>
 					<li class="collection-item"><b>Töpfer-Punzen-Netzwerk</b>&nbsp;&nbsp;<div class="chip green lighten-4">Töpfer</div>&nbsp;<div class="chip orange lighten-4">Punze</div></li>
+					<li class="collection-item"><b>North-South-Network</b>&nbsp;&nbsp;<div class="chip blue lighten-4">Place</div></li>
 		    </ul>
 				<br>
 				<form class="col s12">
@@ -783,6 +855,7 @@
 					    <select id="ontology">
 								<option value="mainzed">Personen-Interessen-Netzwerk</option>
 								<option value="samian">Töpfer-Punzen-Netzwerk</option>
+								<option value="northsouth">North-South-Network</option>
 							</select>
     					<label>Ontologie</label>
   					</div>
