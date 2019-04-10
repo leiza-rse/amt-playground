@@ -1,7 +1,7 @@
 @prefix amt: <http://academic-meta-tool.xyz/vocab#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix mainzed: <http://mainzed.org/> .
+@prefix topi: <http://topi.link/ontology/northsouth#> .
 
 # AMT Ontology - Leonard Edition
 # http://academic-meta-tool.xyz/ontology
@@ -24,44 +24,44 @@ amt:GoedelLogic rdf:type amt:Logic .
 
 # concepts
 
-mainzed:Place rdf:type amt:Concept .
-mainzed:Place rdfs:label "Place" .
-mainzed:Place amt:placeholder "placename" .
+topi:Place rdf:type amt:Concept .
+topi:Place rdfs:label "Place" .
+topi:Place amt:placeholder "placename" .
 
 # roles
 
-mainzed:northOf rdf:type amt:Role .
-mainzed:northOf rdfs:label "is in the north of" .
-mainzed:northOf rdfs:domain mainzed:Place .
-mainzed:northOf rdfs:range mainzed:Place .
+topi:northOf rdf:type amt:Role .
+topi:northOf rdfs:label "is in the north of" .
+topi:northOf rdfs:domain topi:Place .
+topi:northOf rdfs:range topi:Place .
 
-mainzed:southOf rdf:type amt:Role .
-mainzed:southOf rdfs:label "is in the south of" .
-mainzed:southOf rdfs:domain mainzed:Place .
-mainzed:southOf rdfs:range mainzed:Place .
+topi:southOf rdf:type amt:Role .
+topi:southOf rdfs:label "is in the south of" .
+topi:southOf rdfs:domain topi:Place .
+topi:southOf rdfs:range topi:Place .
 
 # axioms
 
 # RoleChainAxiom
 
-mainzed:Axiom01 rdf:type amt:RoleChainAxiom .
-mainzed:Axiom01 amt:antecedent1 mainzed:northOf .
-mainzed:Axiom01 amt:antecedent2 mainzed:northOf .
-mainzed:Axiom01 amt:consequent mainzed:northOf .
-mainzed:Axiom01 amt:logic amt:ProductLogic .
+topi:Axiom01 rdf:type amt:RoleChainAxiom .
+topi:Axiom01 amt:antecedent1 topi:northOf .
+topi:Axiom01 amt:antecedent2 topi:northOf .
+topi:Axiom01 amt:consequent topi:northOf .
+topi:Axiom01 amt:logic amt:ProductLogic .
 
-mainzed:Axiom02 rdf:type amt:RoleChainAxiom .
-mainzed:Axiom02 amt:antecedent1 mainzed:southOf .
-mainzed:Axiom02 amt:antecedent2 mainzed:southOf .
-mainzed:Axiom02 amt:consequent mainzed:southOf .
-mainzed:Axiom02 amt:logic amt:ProductLogic .
+topi:Axiom02 rdf:type amt:RoleChainAxiom .
+topi:Axiom02 amt:antecedent1 topi:southOf .
+topi:Axiom02 amt:antecedent2 topi:southOf .
+topi:Axiom02 amt:consequent topi:southOf .
+topi:Axiom02 amt:logic amt:ProductLogic .
 
 # InverseAxiom
 
-mainzed:Axiom03 rdf:type amt:InverseAxiom .
-mainzed:Axiom03 amt:antecedent mainzed:northOf .
-mainzed:Axiom03 amt:inverse mainzed:southOf .
+topi:Axiom03 rdf:type amt:InverseAxiom .
+topi:Axiom03 amt:antecedent topi:northOf .
+topi:Axiom03 amt:inverse topi:southOf .
 
-mainzed:Axiom04 rdf:type amt:InverseAxiom .
-mainzed:Axiom04 amt:antecedent mainzed:southOf .
-mainzed:Axiom04 amt:inverse mainzed:northOf .
+topi:Axiom04 rdf:type amt:InverseAxiom .
+topi:Axiom04 amt:antecedent topi:southOf .
+topi:Axiom04 amt:inverse topi:northOf .
