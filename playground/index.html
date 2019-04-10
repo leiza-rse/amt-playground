@@ -235,6 +235,151 @@
 							}
 						}
 					}
+					if (MAINZED.ontology==="topismall") {
+						/*
+							Hier wird spezifiziert, wie die Knoten aussehen sollen
+						*/
+						for (var i in updated.nodes) {
+							updated.nodes[i].length = 10/updated.nodes[i].width;
+							if (!MAINZED.edit) {
+								updated.nodes[i].chosen = false;
+							}
+							if (updated.nodes[i].concept.includes("Feature")) {
+								updated.nodes[i].color = {
+		                            background: 'coral',
+		                            border: 'coral',
+		                            highlight: {
+		                                background: 'white',
+		                                border: 'coral'
+		                            }
+		                        };
+		                        updated.nodes[i].shape = "dot";
+		                        updated.nodes[i].font = {
+		                            size: 16,
+		                            face: 'monospace'
+		                        };
+		                        updated.nodes[i].size = 20;
+							}
+						}
+						/*
+							Hier wird spezifiziert wie die Kanten aussehen sollen, welche angezeigt werden sollen, etc
+						*/
+						for (var i in updated.edges) {
+							updated.edges[i].arrowStrikethrough = false;
+							updated.edges[i].chosen = false;
+							if (updated.edges[i].width < 0.1) {
+								updated.edges[i].hidden = true;
+							}
+							if (updated.edges[i].role.includes("inNorthOf")) {
+								updated.edges[i].color = {
+		                            color: "blue",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("inSouthOf")) {
+								updated.edges[i].color = {
+		                            color: "green",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("inWestOf")) {
+								updated.edges[i].color = {
+		                            color: "green",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("inEastOf")) {
+								updated.edges[i].color = {
+		                            color: "green",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+		                        updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("nextTo")) {
+								updated.edges[i].color = {
+		                            color: "blue",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+								updated.edges[i].dashes = true;
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+								if (updated.edges[i].from.localeCompare(updated.edges[i].to) >= 0) {
+									updated.edges[i].hidden = !MAINZED.edit;
+								}
+							}
+							if (updated.edges[i].role.includes("hasChildFeature")) {
+								updated.edges[i].color = {
+		                            color: "orange",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+								updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+							if (updated.edges[i].role.includes("hasParentFeature")) {
+								updated.edges[i].color = {
+		                            color: "orange",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://topi.link/ontology/small#", "") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+								updated.edges[i].arrows = "to";
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    face: 'monospace'
+				                }
+							}
+						}
+					}
 					MAINZED.graph.nodes.update(updated.nodes);
 					MAINZED.graph.edges.update(updated.edges);
 					MAINZED.thisNodes = updated.nodes;
@@ -408,6 +553,8 @@
 					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/samianamt");
 				} else if (MAINZED.ontology==="northsouth") {
 					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amtnorthsouth");
+				} else if (MAINZED.ontology==="topismall") {
+					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amttopismall");
 				} else {
 					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/amtmainzed");
 				}
@@ -847,6 +994,7 @@
 		      <li class="collection-item"><b>Personen-Interessen-Netzwerk</b>&nbsp;&nbsp;<div class="chip blue lighten-4">Person</div>&nbsp;<div class="chip red lighten-4">Interesse</div></li>
 					<li class="collection-item"><b>Töpfer-Punzen-Netzwerk</b>&nbsp;&nbsp;<div class="chip green lighten-4">Töpfer</div>&nbsp;<div class="chip orange lighten-4">Punze</div></li>
 					<li class="collection-item"><b>North-South-Network</b>&nbsp;&nbsp;<div class="chip blue lighten-4">Place</div></li>
+					<li class="collection-item"><b>Topi-Small-Network</b>&nbsp;&nbsp;<div class="chip blue lighten-4">Geocrafical Feature</div></li>
 		    </ul>
 				<br>
 				<form class="col s12">
@@ -856,6 +1004,7 @@
 								<option value="mainzed">Personen-Interessen-Netzwerk</option>
 								<option value="samian">Töpfer-Punzen-Netzwerk</option>
 								<option value="northsouth">North-South-Network</option>
+								<option value="topismall">Topi-Small-Network</option>
 							</select>
     					<label>Ontologie</label>
   					</div>
