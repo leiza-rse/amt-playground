@@ -548,15 +548,15 @@
 				MAINZED.thisEdges = [];
 				MAINZED.amt = new AMT();
 				if (MAINZED.ontology==="mainzed") {
-					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/amtmainzed");
+					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amtmainzed");
 				} else if (MAINZED.ontology==="samian") {
-					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/samianamt");
+					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/samianamt");
 				} else if (MAINZED.ontology==="northsouth") {
 					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amtnorthsouth");
 				} else if (MAINZED.ontology==="topismall") {
 					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amttopismall");
 				} else {
-					MAINZED.amt.setStore("http://ls-dev.i3mainz.hs-mainz.de/rdf4j-server/repositories/amtmainzed");
+					MAINZED.amt.setStore("https://java-dev.rgzm.de/rdf4j-server/repositories/amtmainzed");
 				}
 				console.log(MAINZED);
 				MAINZED.amt.load(function() {
