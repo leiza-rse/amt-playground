@@ -110,15 +110,46 @@
 								updated.edges[i].hidden = !MAINZED.edit;
 							}
 							if (updated.edges[i].role.includes("connectedWith")) {
-								updated.edges[i].color = {color:"blue", highlight:"black"};
+								/*updated.edges[i].color = {color:"blue", highlight:"black"};
 								updated.edges[i].dashes = true;
+								if (updated.edges[i].from.localeCompare(updated.edges[i].to) >= 0) {
+									updated.edges[i].hidden = !MAINZED.edit;
+								}*/
+								updated.edges[i].color = {
+		                            color: "blue",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 250;
+		                        updated.edges[i].smooth = false;
+								updated.edges[i].dashes = true;
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://mainzed.org/connectedWith", "con") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    color: 'black',
+				                    face: 'monospace'
+				                }
 								if (updated.edges[i].from.localeCompare(updated.edges[i].to) >= 0) {
 									updated.edges[i].hidden = !MAINZED.edit;
 								}
 							}
 							if (updated.edges[i].role.includes("interestedIn")) {
-								updated.edges[i].color = {color:"green", highlight:"black"};
+								/*updated.edges[i].color = {color:"green", highlight:"black"};
+								updated.edges[i].arrows = "to";*/
+								updated.edges[i].color = {
+		                            color: "green",
+		                            highlight: "black"
+		                        };
+		                        updated.edges[i].length = 180;
+		                        updated.edges[i].smooth = false;
 								updated.edges[i].arrows = "to";
+		                        updated.edges[i].label = updated.edges[i].role.replace("http://mainzed.org/interestedIn", "int") + ": " + Math.floor(updated.edges[i].width * 100) / 100;
+								updated.edges[i].font = {
+				                    align: 'middle',
+				                    size: 16,
+				                    color: 'black',
+				                    face: 'monospace'
+				                }
 							}
 							if (updated.edges[i].role.includes("interestOf")) {
 								updated.edges[i].color = {color:"green", highlight:"black"};
