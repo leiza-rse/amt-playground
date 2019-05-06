@@ -64,12 +64,40 @@
 								updated.nodes[i].chosen = false;
 							}
 							if (updated.nodes[i].concept.includes("Person")) {
-								updated.nodes[i].color = {background:'lightblue', border:'blue', highlight:{background:'white',border:'black'}};
-								updated.nodes[i].shape = "box";
+								//updated.nodes[i].color = {background:'lightblue', border:'blue', highlight:{background:'white',border:'black'}};
+								//updated.nodes[i].shape = "box";
+								updated.nodes[i].color = {
+		                            background: 'lightblue',
+		                            border: 'blue',
+		                            highlight: {
+		                                background: 'white',
+		                                border: 'black'
+		                            }
+		                        };
+		                        updated.nodes[i].shape = "dot";
+		                        updated.nodes[i].font = {
+		                            size: 16,
+		                            face: 'monospace'
+		                        };
+		                        updated.nodes[i].size = 20;
 							}
 							if (updated.nodes[i].concept.includes("Interest")) {
-								updated.nodes[i].color = {background:'pink', border:'red', highlight:{background:'white',border:'black'}};
-								updated.nodes[i].shape = "ellipse";
+								//updated.nodes[i].color = {background:'pink', border:'red', highlight:{background:'white',border:'black'}};
+								//updated.nodes[i].shape = "ellipse";
+								updated.nodes[i].color = {
+		                            background: 'pink',
+		                            border: 'red',
+		                            highlight: {
+		                                background: 'white',
+		                                border: 'black'
+		                            }
+		                        };
+		                        updated.nodes[i].shape = "dot";
+		                        updated.nodes[i].font = {
+		                            size: 16,
+		                            face: 'monospace'
+		                        };
+		                        updated.nodes[i].size = 13;
 							}
 						}
 						/*
