@@ -1,5 +1,26 @@
 @prefix mainzed: <http://mainzed.org/> .
 @prefix amt: <http://academic-meta-tool.xyz/vocab#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# AMT Ontology - Leonard Edition
+# http://academic-meta-tool.xyz/ontology
+
+amt:Concept rdfs:subClassOf rdfs:Class .
+amt:Role rdfs:subClassOf rdf:Property .
+amt:Axiom rdfs:subclassOf rdfs:Class .
+amt:InferenceAxiom rdfs:subClassOf amt:Axiom .
+amt:IntegrityAxiom rdfs:subClassOf amt:Axiom .
+amt:RoleChainAxiom rdfs:subClassOf amt:InferenceAxiom .
+amt:InverseAxiom rdfs:subClassOf amt:InferenceAxiom .
+amt:DisjointAxiom rdfs:subClassOf amt:IntegrityAxiom .
+amt:SelfDisjointAxiom rdfs:subClassOf amt:IntegrityAxiom .
+amt:Logic rdfs:subClassOf rdfs:Class .
+amt:LukasiewiczLogic rdf:type amt:Logic .
+amt:ProductLogic rdf:type amt:Logic .
+amt:GoedelLogic rdf:type amt:Logic .
+
+# Personen-Interessen-Netzwerk Ontology
 
 # concepts
 
