@@ -1,4 +1,5 @@
-# academicmetatool-viewer
+# Academic Meta Tool Viewer
+
 AMT viewer examples
 
 * [AMT Playground](playground/index.html)
