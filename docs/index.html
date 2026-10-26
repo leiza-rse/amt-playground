@@ -3,6 +3,8 @@
   <head>
     <title>AMT | Playground</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://unpkg.com/n3@1.17.2/browser/n3.min.js"></script>
+    <script type="text/javascript" src="amt-reasoner.js"></script>
     <script type="text/javascript" src="amt.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -577,11 +579,6 @@
         $("#store").hide();
         edit();
       };
-      var save = function () {
-        MAINZED.amt.save(function () {
-          location.reload();
-        });
-      };
       var openModal = function (id, type) {
         $("#uri").val("");
         if (id) {
@@ -728,7 +725,6 @@
             if (MAINZED.edit) openModal(params.nodes[0]);
           });
           update();
-          propModal();
         });
         $("#modal").modal({
           complete: cancelEdit,
@@ -765,28 +761,6 @@
         MAINZED.thisNodes = [];
         MAINZED.thisEdges = [];
         MAINZED.amt = new AMT();
-        if (MAINZED.ontology === "mainzed") {
-          MAINZED.amt.setStore(
-            "https://java-dev.rgzm.de/rdf4j-server/repositories/amtmainzed"
-          );
-        } else if (MAINZED.ontology === "samian") {
-          MAINZED.amt.setStore(
-            "https://java-dev.rgzm.de/rdf4j-server/repositories/samianamt"
-          );
-        } else if (MAINZED.ontology === "northsouth") {
-          MAINZED.amt.setStore(
-            "https://java-dev.rgzm.de/rdf4j-server/repositories/amtnorthsouth"
-          );
-        } else if (MAINZED.ontology === "topismall") {
-          MAINZED.amt.setStore(
-            "https://java-dev.rgzm.de/rdf4j-server/repositories/amttopismall"
-          );
-        } else {
-          MAINZED.amt.setStore(
-            "https://java-dev.rgzm.de/rdf4j-server/repositories/amtmainzed"
-          );
-        }
-        console.log(MAINZED);
         MAINZED.amt.load(function () {
           var concepts = MAINZED.amt.getConcepts();
           $("#buttons .green").remove();
@@ -1254,7 +1228,6 @@
                 ><i class="material-icons">cancel</i></a
               >
             </div>
-            <!--<div id="save"><a class="btn-floating btn-large normal black" onclick="save()" title="Save changes"><i class="material-icons">save</i></a></div>-->
           </div>
         </div>
       </div>
