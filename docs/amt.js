@@ -41,6 +41,7 @@ var AMT = function () {
   var AXIOMS = [];
 
   var ONTOLOGY = "ontology_mainzed.ttl";
+  var NETWORK = "network_mainzed.ttl"; // optional starting network
   var PREFIX = "http://academic-meta-tool.xyz/vocab#";
   var RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
   var RDFS = "http://www.w3.org/2000/01/rdf-schema#";
@@ -126,6 +127,37 @@ var AMT = function () {
     AXIOMS = AMTReasoner.normaliseAxioms(raw);
   };
 
+  // The starting network: individuals and reified, weighted statements.
+  // The file is optional; without it the playground starts empty.
+  var loadNetwork = function (callback) {
+    fetch(NETWORK)
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (text) {
+        if (!text) return callback({ nodes: [], edges: [] });
+        var parser = new N3.Parser();
+        var out = [], done = false;
+        parser.parse(text, function (error, quad) {
+          if (done) return;
+          if (error) { done = true; console.error(error); callback({ nodes: [], edges: [] }); return; }
+          if (quad) { out.push({ s: quad.subject.value, p: quad.predicate.value, o: quad.object.value }); return; }
+          done = true;
+          var at = function (s, p) { var r = out.filter(function (t) { return t.s === s && t.p === p; }); return r.length ? r[0].o : null; };
+          var graph = { nodes: [], edges: [] };
+          CONCEPTS.forEach(function (c) {
+            out.filter(function (t) { return t.p === RDF + "type" && t.o === c.concept; }).forEach(function (t) {
+              graph.nodes.push({ id: t.s, label: at(t.s, RDFS + "label"), concept: c.concept });
+            });
+          });
+          out.filter(function (t) { return t.p === RDF + "type" && t.o === RDF + "Statement"; }).forEach(function (t) {
+            var w = parseFloat(at(t.s, PREFIX + "weight"));
+            graph.edges.push({ role: at(t.s, RDF + "predicate"), from: at(t.s, RDF + "subject"), to: at(t.s, RDF + "object"), width: isNaN(w) ? 1 : w });
+          });
+          callback(graph);
+        });
+      })
+      .catch(function () { callback({ nodes: [], edges: [] }); });
+  };
+
   this.load = function (callback) {
     loadOntology(function (err) {
       if (err) {
@@ -134,9 +166,11 @@ var AMT = function () {
         return;
       }
       readOntology();
-      GRAPH.original = { nodes: [], edges: [] };
-      GRAPH.edited = { nodes: [], edges: [] };
-      callback();
+      loadNetwork(function (graph) {
+        GRAPH.original = graph;
+        GRAPH.edited = copy(graph);
+        callback();
+      });
     });
   };
 

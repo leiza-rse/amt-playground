@@ -13,6 +13,7 @@ Everything runs in the browser, there is no server and no triplestore.
 
 - `docs/ontology_mainzed.ttl` is the ontology with its axioms, read with
   [N3.js](https://github.com/rdfjs/N3.js).
+- `docs/network_mainzed.ttl` is a small starting network (invented persons and interests, weighted statements). The file is optional; without it the playground starts empty, as the original did.
 - `docs/amt-reasoner.js` is the reasoner. It is a copy of the one in
   [amt-engine](https://github.com/n4o-rse/amt-engine) (`docs/js/amt-reasoner.js`),
   which is the source: it is tested there against the Python engine. Update the
