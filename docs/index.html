@@ -937,7 +937,21 @@
               " <http://academic-meta-tool.xyz/vocab#weight>" +
               ' "' +
               MAINZED.thisEdges[edge].width +
-              '"^^<http://www.w3.org/2001/XMLSchema#integer> .\r\n';
+              '"^^<http://www.w3.org/2001/XMLSchema#decimal> .\r\n';
+            if (MAINZED.thisEdges[edge].type) {
+              nodesAndEdges +=
+                emptyNode +
+                " <http://w3id.org/fw_ontology/hasType> <" +
+                MAINZED.thisEdges[edge].type +
+                "> .\r\n";
+            }
+            if (MAINZED.thisEdges[edge].method) {
+              nodesAndEdges +=
+                emptyNode +
+                " <http://w3id.org/fw_ontology/hasMethod> <" +
+                MAINZED.thisEdges[edge].method +
+                "> .\r\n";
+            }
             if (nodesAndEdges.includes("Infinity")) {
               nodesAndEdges = nodesAndEdges.replace("Infinity", 1.0);
             }
@@ -1165,7 +1179,9 @@
             json.edges[edge].role,
             json.edges[edge].from,
             json.edges[edge].to,
-            json.edges[edge].width
+            json.edges[edge].width,
+            json.edges[edge].type,
+            json.edges[edge].method
           );
         }
         update();

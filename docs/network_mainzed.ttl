@@ -3,9 +3,13 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ex: <http://mainzed.org/example/> .
+@prefix fw: <http://w3id.org/fw_ontology/> .
 
 # A small starting network for the playground (invented persons, for illustration).
-# Edges are reified statements with a weight in (0, 1].
+# Edges are reified statements with a weight in (0, 1]. A statement may also say what kind of
+# fuzziness the weight expresses (fw:hasType: fw:Uncertainty, fw:Vagueness, fw:FuzzinessWobbliness)
+# and how it was obtained (fw:hasMethod); without a type it counts as fw:Vagueness. Derived
+# statements take the type of what they were derived from (fw:FuzzinessWobbliness if these differ).
 
 ex:ada a mainzed:Person ; rdfs:label "Lovelace, Ada" .
 ex:grace a mainzed:Person ; rdfs:label "Hopper, Grace" .
@@ -16,7 +20,7 @@ ex:sw a mainzed:Interest ; rdfs:label "Semantic Web" .
 ex:ai a mainzed:Interest ; rdfs:label "Symbolic AI" .
 
 [] a rdf:Statement ; rdf:subject ex:ada ; rdf:predicate mainzed:interestedIn ; rdf:object ex:ai ; amt:weight 0.9 .
-[] a rdf:Statement ; rdf:subject ex:grace ; rdf:predicate mainzed:interestedIn ; rdf:object ex:ai ; amt:weight 0.6 .
+[] a rdf:Statement ; rdf:subject ex:grace ; rdf:predicate mainzed:interestedIn ; rdf:object ex:ai ; amt:weight 0.6 ; fw:hasType fw:Uncertainty .
 [] a rdf:Statement ; rdf:subject ex:tim ; rdf:predicate mainzed:interestedIn ; rdf:object ex:lod ; amt:weight 1.0 .
 [] a rdf:Statement ; rdf:subject ex:lod ; rdf:predicate mainzed:subInterestOf ; rdf:object ex:sw ; amt:weight 0.8 .
-[] a rdf:Statement ; rdf:subject ex:sw ; rdf:predicate mainzed:subInterestOf ; rdf:object ex:ai ; amt:weight 0.5 .
+[] a rdf:Statement ; rdf:subject ex:sw ; rdf:predicate mainzed:subInterestOf ; rdf:object ex:ai ; fw:hasDegreeOfConnection 0.5 ; fw:hasType fw:Vagueness .

@@ -6,7 +6,12 @@
 // to the page, read with N3.js, and everything happens in the browser. The
 // graph the visitor builds lives in memory (export it with the buttons of the
 // page); reasoning is done by amt-reasoner.js, the same code as the Explorer of
-// amt-engine (https://n4o-rse.github.io/amt-engine/explorer/).
+// amt-engine (https://alpaca-fair-framework.github.io/amt-engine/explorer/).
+//
+// A statement can carry a type and a method of the FW ontology (fw:hasType,
+// fw:hasMethod), which makes it a hextuple. The reasoner passes both on; the
+// edges of the page keep them as `type` and `method` (IRIs) and show them in
+// the tooltip.
 // ============================================================
 
 function StrID() {
@@ -45,6 +50,7 @@ var AMT = function () {
   var PREFIX = "http://academic-meta-tool.xyz/vocab#";
   var RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
   var RDFS = "http://www.w3.org/2000/01/rdf-schema#";
+  var FW = "http://w3id.org/fw_ontology/";
 
   // ----------------------------------------------------------
   // The ontology: triples from the Turtle file, looked up by pattern
@@ -148,9 +154,15 @@ var AMT = function () {
               graph.nodes.push({ id: t.s, label: at(t.s, RDFS + "label"), concept: c.concept });
             });
           });
-          out.filter(function (t) { return t.p === RDF + "type" && t.o === RDF + "Statement"; }).forEach(function (t) {
-            var w = parseFloat(at(t.s, PREFIX + "weight"));
-            graph.edges.push({ role: at(t.s, RDF + "predicate"), from: at(t.s, RDF + "subject"), to: at(t.s, RDF + "object"), width: isNaN(w) ? 1 : w });
+          // a statement is whatever has rdf:subject; the weight is amt:weight, or fw:hasDegreeOfConnection
+          out.filter(function (t) { return t.p === RDF + "subject"; }).forEach(function (t) {
+            var raw = at(t.s, PREFIX + "weight");
+            if (raw === null) raw = at(t.s, FW + "hasDegreeOfConnection");
+            var w = parseFloat(raw);
+            graph.edges.push({
+              role: at(t.s, RDF + "predicate"), from: t.o, to: at(t.s, RDF + "object"), width: isNaN(w) ? 1 : w,
+              type: at(t.s, FW + "hasType"), method: at(t.s, FW + "hasMethod"),
+            });
           });
           callback(graph);
         });
@@ -183,7 +195,8 @@ var AMT = function () {
       cpy.nodes.push({ id: graph.nodes[i].id, label: graph.nodes[i].label, concept: graph.nodes[i].concept });
     }
     for (var j in graph.edges) {
-      cpy.edges.push({ role: graph.edges[j].role, from: graph.edges[j].from, to: graph.edges[j].to, width: graph.edges[j].width });
+      cpy.edges.push({ role: graph.edges[j].role, from: graph.edges[j].from, to: graph.edges[j].to, width: graph.edges[j].width,
+                       type: graph.edges[j].type || null, method: graph.edges[j].method || null });
     }
     return cpy;
   };
@@ -200,7 +213,8 @@ var AMT = function () {
   var toEngineEdges = function (edges) {
     return edges.map(function (e) {
       var w = parseFloat(e.width);
-      return { role: e.role, from: e.from, to: e.to, weight: isNaN(w) ? 0 : Math.min(w, 1.0), inferred: false, provenance: [] };
+      return { role: e.role, from: e.from, to: e.to, weight: isNaN(w) ? 0 : Math.min(w, 1.0), inferred: false, provenance: [],
+               type: e.type || null, method: e.method || null };
     });
   };
   var doReasoning = function (graph) {
@@ -210,6 +224,7 @@ var AMT = function () {
       var e = reasoned[j];
       graph.edges.push({
         role: e.role, from: e.from, to: e.to, width: e.weight, inferred: true, provenance: e.provenance,
+        type: e.type || null, method: e.method || null,
         font: { align: "middle", size: 16, color: "red", face: "monospace" },
       });
     }
@@ -263,8 +278,8 @@ var AMT = function () {
     }
     return consistent();
   };
-  this.addExistingAssertion = function (id, role, from, to, width) {
-    GRAPH.edited.edges.push({ role: role, from: from, to: to, width: width });
+  this.addExistingAssertion = function (id, role, from, to, width, type, method) {
+    GRAPH.edited.edges.push({ role: role, from: from, to: to, width: width, type: type || null, method: method || null });
     return consistent();
   };
   this.cancel = function () {
@@ -276,8 +291,20 @@ var AMT = function () {
   this.getRoles = function () {
     return ROLES;
   };
+  // Tooltip of an edge: asserted or derived, with its FW type and method if it has them.
+  var local = function (iri) { return String(iri).split("/").pop().split("#").pop(); };
+  var addTitles = function (graph) {
+    graph.edges.forEach(function (e) {
+      if (!e.type && !e.method && !e.inferred) return;
+      var parts = [e.inferred ? "derived" : "asserted"];
+      parts.push("type: " + local(AMTReasoner.effectiveType(e)));
+      if (e.method) parts.push("method: " + local(e.method));
+      e.title = parts.join(" | ");
+    });
+    return graph;
+  };
   this.getGraph = function (reasoning, edited) {
     var g = copy(edited ? GRAPH.edited : GRAPH.original);
-    return reasoning ? doReasoning(g) : g;
+    return addTitles(reasoning ? doReasoning(g) : g);
   };
 };
